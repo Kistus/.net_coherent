@@ -1,38 +1,40 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System;
 
-namespace ConsoleAppHW1 // Note: actual namespace depends on the project name.
+namespace ConsoleAppHW1_Task2
 {
     internal class Program
     {
-        static string CalculateControlNumberIsbn(string isbn)
+        static void Main(string[] args)
         {
-            int sum = 0;
+            Console.WriteLine("Enter the first 9 digits of the ISBN:");
+            string isbn9 = Console.ReadLine();
 
-            for (int i = 0; i < isbn.Length; i++)
+            if (isbn9.Length != 9)
             {
-                sum += int.Parse(isbn[i].ToString()) * (10 - i);
+                Console.WriteLine("Input must be 9 digits long.");
+                return;
             }
 
-            int controlNumber = (11 - (sum % 11)) % 11;
-            string checkDigit = string.Empty;
-            if (controlNumber == 10)
+            int sum = 0;
+            for (int i = 0; i < 9; i++)
             {
-                checkDigit = "X";
+                int digit = int.Parse(isbn9[i].ToString());
+                sum += (10 - i) * digit;
+            }
+
+            int checkDigit = sum % 11;
+            string isbn10;
+
+            if (checkDigit == 10)
+            {
+                isbn10 = isbn9 + "X";
             }
             else
             {
-                checkDigit = controlNumber.ToString();
+                isbn10 = isbn9 + checkDigit.ToString();
             }
 
-            return isbn + checkDigit;
-        }
-
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Enter ISBN: ");
-            string isbn = Console.ReadLine();
-            string isbnWithControlNumber = CalculateControlNumberIsbn(isbn);
-            Console.WriteLine("Control number: " + isbnWithControlNumber);
+            Console.WriteLine($"The complete ISBN is: {isbn10}");
         }
     }
 }
