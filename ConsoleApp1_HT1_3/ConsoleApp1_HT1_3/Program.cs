@@ -1,12 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System;
 
-namespace ConsoleAppHW1 // Note: actual namespace depends on the project name.
+namespace ConsoleAppHW1_Task3
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.Write("Enter the number of elements in the array: ");
+            Console.WriteLine("Enter the number of elements in the array:");
             int n = int.Parse(Console.ReadLine());
             int[] array = new int[n];
 
@@ -16,42 +16,52 @@ namespace ConsoleAppHW1 // Note: actual namespace depends on the project name.
                 array[i] = int.Parse(Console.ReadLine());
             }
 
-            Console.WriteLine("Original array:");
-            for (int i = 0; i < n; i++)
+            Console.WriteLine("Original Array:");
+            foreach (int element in array)
             {
-                Console.Write(array[i] + " ");
+                Console.Write(element + " ");
             }
             Console.WriteLine();
 
-            int[] uniqueArray = new int[n];  // Maximum size could be n
-            int uniqueCount = 0;
+            // Create new array with unique elements
+            int[] uniqueArray = RemoveDuplicates(array);
 
-            for (int i = 0; i < n; i++)
+            Console.WriteLine("Array with unique elements:");
+            foreach (int element in uniqueArray)
             {
-                bool isUnique = true;
+                Console.Write(element + " ");
+            }
+            Console.WriteLine();
+        }
 
-                for (int j = 0; j < uniqueCount; j++)
+        static int[] RemoveDuplicates(int[] array)
+        {
+            int[] tempArray = new int[array.Length];
+            int index = 0;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                bool isDuplicate = false;
+                for (int j = 0; j < index; j++)
                 {
-                    if (array[i] == uniqueArray[j])
+                    if (array[i] == tempArray[j])
                     {
-                        isUnique = false;
+                        isDuplicate = true;
                         break;
                     }
                 }
 
-                if (isUnique)
+                if (!isDuplicate)
                 {
-                    uniqueArray[uniqueCount] = array[i];
-                    uniqueCount++;
+                    tempArray[index] = array[i];
+                    index++;
                 }
             }
 
-            Console.WriteLine("Array with unique elements:");
-            for (int i = 0; i < uniqueCount; i++)
-            {
-                Console.Write(uniqueArray[i] + " ");
-            }
-            Console.WriteLine();
+            int[] result = new int[index];
+            Array.Copy(tempArray, result, index);
+
+            return result;
         }
     }
 }
