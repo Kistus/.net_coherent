@@ -22,7 +22,7 @@ namespace ConsoleAppHW1_Task2
                 sum += (10 - i) * digit;
             }
 
-            int checkDigit = sum % 11;
+            int checkDigit = (11-sum % 11)%11
             string isbn10;
 
             if (checkDigit == 10)
