@@ -1,40 +1,28 @@
-using System;
 
-namespace ConsoleAppHW1_Task2
+﻿public class Program
 {
-    internal class Program
+    public static void Main(string[] args)
     {
-        static void Main(string[] args)
+        IQueue<int> queue = new Queue<int>(5);
+
+        queue.Enqueue(1);
+        queue.Enqueue(3);
+        queue.Enqueue(5);
+        queue.Enqueue(7);
+        while (!queue.IsEmpty())
         {
-            Console.WriteLine("Enter the first 9 digits of the ISBN:");
-            string isbn9 = Console.ReadLine();
+            Console.WriteLine(queue.Dequeue());
+        }
 
-            if (isbn9.Length != 9)
-            {
-                Console.WriteLine("Input must be 9 digits long.");
-                return;
-            }
+        queue.Enqueue(1);
+        queue.Enqueue(3);
+        queue.Enqueue(5);
+        queue.Enqueue(7);
 
-            int sum = 0;
-            for (int i = 0; i < 9; i++)
-            {
-                int digit = int.Parse(isbn9[i].ToString());
-                sum += (10 - i) * digit;
-            }
-
-            int checkDigit = (11-sum % 11)%11
-            string isbn10;
-
-            if (checkDigit == 10)
-            {
-                isbn10 = isbn9 + "X";
-            }
-            else
-            {
-                isbn10 = isbn9 + checkDigit.ToString();
-            }
-
-            Console.WriteLine($"The complete ISBN is: {isbn10}");
+        IQueue<int> tailQueue = queue.Tail();
+        while (!tailQueue.IsEmpty())
+        {
+            Console.WriteLine(tailQueue.Dequeue());
         }
     }
 }
