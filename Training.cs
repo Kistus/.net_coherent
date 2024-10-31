@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 public class Training
 {
-    private List<Lesson> lessons;
+    private Lesson[] lessons;
 
-    public Training()
+    public Training(int numberOfLessons)
     {
-        lessons = new List<Lesson>();
+        lessons = new Lesson[numberOfLessons];
     }
 
-    public void Add(Lesson lesson)
+    public void Add(Lesson lesson, int index)
     {
-        lessons.Add(lesson);
+        lessons[index] = lesson;
     }
 
     public bool IsPractical()
     {
-        // Check if all lessons are of type PracticalLesson
         foreach (var lesson in lessons)
         {
             if (lesson is not PracticalLesson)
@@ -30,17 +30,10 @@ public class Training
 
     public Training Clone()
     {
-        Training clonedTraining = new Training();
-        foreach (var lesson in lessons)
+        Training clonedTraining = new Training(lessons.Length);
+        for (int i = 0; i < lessons.Length; i++)
         {
-            if (lesson is Lecture lecture)
-            {
-                clonedTraining.Add(new Lecture(lecture.Description, lecture.Topic));
-            }
-            else if (lesson is PracticalLesson practical)
-            {
-                clonedTraining.Add(new PracticalLesson(practical.Description, practical.TaskCondition, practical.Solution));
-            }
+            clonedTraining.Add(lessons[i].Clone(), i);
         }
         return clonedTraining;
     }
