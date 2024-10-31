@@ -1,13 +1,27 @@
-﻿using System;
-
-public class Program
+﻿public class Program
 {
-    public static void Main()
+    public static void Main(string[] args)
     {
-        Point3D p1 = new Point3D(0, 0, 0, 5.5);
-        Point3D p2 = new Point3D(3, 4, 5, 2.5);
+        IQueue<int> queue = new Queue<int>(5);
 
-        Console.WriteLine($"Distance {p1.DistanceTo(p2)}");
-        Console.WriteLine($"Is p1 Zero Point? {p1.IsZero()}");
+        queue.Enqueue(1);
+        queue.Enqueue(3);
+        queue.Enqueue(5);
+        queue.Enqueue(7);
+        while (!queue.IsEmpty())
+        {
+            Console.WriteLine(queue.Dequeue());
+        }
+
+        queue.Enqueue(1);
+        queue.Enqueue(3);
+        queue.Enqueue(5);
+        queue.Enqueue(7);
+
+        IQueue<int> tailQueue = queue.Tail();
+        while (!tailQueue.IsEmpty())
+        {
+            Console.WriteLine(tailQueue.Dequeue());
+        }
     }
 }
