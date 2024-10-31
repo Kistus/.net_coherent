@@ -1,13 +1,40 @@
-﻿using System;
+using System;
 
-public class Program
+namespace ConsoleAppHW1_Task2
 {
-    public static void Main()
+    internal class Program
     {
-        Point3D p1 = new Point3D(0, 0, 0, 5.5);
-        Point3D p2 = new Point3D(3, 4, 5, 2.5);
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the first 9 digits of the ISBN:");
+            string isbn9 = Console.ReadLine();
 
-        Console.WriteLine($"Distance {p1.DistanceTo(p2)}");
-        Console.WriteLine($"Is p1 Zero Point? {p1.IsZero()}");
+            if (isbn9.Length != 9)
+            {
+                Console.WriteLine("Input must be 9 digits long.");
+                return;
+            }
+
+            int sum = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                int digit = int.Parse(isbn9[i].ToString());
+                sum += (10 - i) * digit;
+            }
+
+            int checkDigit = (11-sum % 11)%11
+            string isbn10;
+
+            if (checkDigit == 10)
+            {
+                isbn10 = isbn9 + "X";
+            }
+            else
+            {
+                isbn10 = isbn9 + checkDigit.ToString();
+            }
+
+            Console.WriteLine($"The complete ISBN is: {isbn10}");
+        }
     }
 }
