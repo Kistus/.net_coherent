@@ -1,4 +1,4 @@
-﻿public class Queue<T> : IQueue<T>
+﻿public class Queue<T> : IQueue<T> where T : struct
 {
     private T[] _items;
     private int _head;
