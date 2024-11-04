@@ -1,20 +1,25 @@
-﻿public static class QueueExtensions
+public static class QueueExtensions
 {
-    public static IQueue<T> Tail<T>(this IQueue<T> queue)
+    public static IQueue<T> Tail<T>(this IQueue<T> queue) where T : struct
     {
         if (queue.IsEmpty())
         {
-            throw new InvalidOperationException("empty");
+            throw new InvalidOperationException("Queue is empty");
         }
-
-        Queue<T> newQueue = new Queue<T>();
-        queue.Dequeue();
-
+        List<T> items = new List<T>();
         while (!queue.IsEmpty())
         {
-            newQueue.Enqueue(queue.Dequeue());
+            items.Add(queue.Dequeue());
         }
-
+        Queue<T> newQueue = new Queue<T>();
+        for (int i = 1; i < items.Count; i++)
+        {
+            newQueue.Enqueue(items[i]);
+        }
+        foreach (var item in items)
+        {
+            queue.Enqueue(item);
+        }
         return newQueue;
     }
 }
