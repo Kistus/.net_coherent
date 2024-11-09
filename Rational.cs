@@ -5,7 +5,9 @@
 
     public Rational(int numerator, int denominator)
     {
-        if (denominator == 0) throw new ArgumentException("cannot be zero.");
+        if (denominator == 0) { 
+        throw new ArgumentException("cannot be zero.");
+        }
 
         int gcd = GCD(Math.Abs(numerator), Math.Abs(denominator));
         Numerator = numerator / gcd;
@@ -18,7 +20,8 @@
         }
     }
 
-    private static int GCD(int a, int b) => b == 0 ? a : GCD(b, a % b);
+   private static int GCD(int a, int b) => b == 0 ? a : GCD(b, a % b);
+
 
     public override bool Equals(object obj)
     {
