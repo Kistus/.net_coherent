@@ -7,7 +7,9 @@
 
     public DiagonalMatrix(int size)
     {
-        if (size < 0) throw new ArgumentException("non-negative.");
+        if (size < 0) {
+        throw new ArgumentException("non-negative.");
+        }
         Size = size;
         _elements = new T[size];
     }
@@ -30,12 +32,15 @@
             }
         }
     }
-
+    
     private void ValidateIndices(int i, int j)
     {
         if (i < 0 || i >= Size || j < 0 || j >= Size)
-            throw new IndexOutOfRangeException("out of range.");
+        {
+            throw new IndexOutOfRangeException("Index is out of range.");
+        }
     }
+
 
     public static DiagonalMatrix<T> Add(DiagonalMatrix<T> matrix1, DiagonalMatrix<T> matrix2, Func<T, T, T> addFunction)
     {
