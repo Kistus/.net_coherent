@@ -56,13 +56,11 @@ public class SparseMatrix : IEnumerable<long>
 
     public int GetCount(long value)
     {
-        int count = 0;
-        foreach (var element in this)
+    if (value == 0)
         {
-            if (element == value)
-                count++;
+        return (Rows * Columns) - _elements.Count;
         }
-        return count;
+    return _elements.Values.Count(v => v == value);
     }
 
     private void ValidateIndices(int row, int column)
