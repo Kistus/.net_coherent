@@ -1,49 +1,28 @@
-﻿using BookCatalogLibrary;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-public class Catalog
+namespace BookCatalog
 {
-    private readonly Dictionary<string, Book> _books;
-
-    public Catalog()
+    public class Catalog
     {
-        _books = new Dictionary<string, Book>();
-    }
+        private Dictionary<string, Book> books = new Dictionary<string, Book>();
 
-    public void AddBook(Book book)
-    {
-        if (book == null)
-            throw new ArgumentNullException(nameof(book));
+        public void AddBook(Book book)
+        {
+            string normalizedISBN = book.ISBN.Replace("-", "");
+            if (!books.ContainsKey(normalizedISBN))
+            {
+                books[normalizedISBN] = book;
+                books[book.ISBN] = book;
+            }
+        }
 
-        string cleanedIsbn = CleanIsbn(book.Isbn);
-        _books[cleanedIsbn] = book;
-    }
+        public Book GetBook(string isbn)
+        {
+            string normalizedISBN = isbn.Replace("-", "");
+            return books.ContainsKey(normalizedISBN) ? books[normalizedISBN] : null;
+        }
 
-    public Book GetBook(string isbn)
-    {
-        string cleanedIsbn = CleanIsbn(isbn);
-        return _books.TryGetValue(cleanedIsbn, out var book) ? book : null;
-    }
-
-    public IEnumerable<string> GetBookTitles()
-    {
-        return _books.Values.Select(b => b.Title).OrderBy(title => title);
-    }
-
-    public IEnumerable<Book> GetBooksByAuthor(string author)
-    {
-        return _books.Values.Where(b => b.Authors.Contains(author))
-                            .OrderBy(b => b.PublicationDate);
-    }
-
-    public IEnumerable<(string Author, int BookCount)> GetAuthorStatistics()
-    {
-        return _books.Values.SelectMany(b => b.Authors)
-                            .GroupBy(author => author)
-                            .Select(group => (Author: group.Key, BookCount: group.Count()));
-    }
-
-    private string CleanIsbn(string isbn)
-    {
-        return isbn.Replace("-", string.Empty);
+        public List<Book> GetAllBooks() => books.Values.Distinct().ToList();
     }
 }
